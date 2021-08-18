@@ -5,7 +5,8 @@ class Artist(models.Model):
     name = models.CharField(max_length=100)
     nationality = models.CharField(max_length=100)
     photo_url = models.TextField()
-
+    print("At Artist Model")
+    
     def __str__(self):
         return self.name
 
@@ -22,3 +23,4 @@ class Song(models.Model):
 
     def __str__(self):
         return self.title
+
