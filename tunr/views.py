@@ -24,10 +24,32 @@ def artist_list(request):
 
 def artist_create(request):
     if request.method == 'POST':
-        pass
+        form = ArtistForm(request.POST)
+        if form.is_valid():
+            artist = form.save()
+            return redirect('artist_detail', pk=artist.pk)
+        else:
+            form = ArtistForm()
     else:
         form = ArtistForm()
     return render(request, 'tunr/artist_form.html', {'form':form})
+
+
+def artist_edit(request, pk):
+    artist = Artist.objects.get(pk=pk) # Todo.findById(req.params.id)
+    if request.method == "POST":
+        form = ArtistForm(request.POST, instance=artist)
+        if form.is_valid():
+            artist = form.save()
+            return redirect('artist_detail', pk=artist.pk)
+    else:
+        form = ArtistForm(instance=artist)
+    return render(request, 'tunr/artist_form.html', {'form': form})
+
+def artist_delete(request, pk):
+    Artist.objects.get(id=pk).delete()
+    return redirect('artist_list')
+
 
 def song_list(request):
     songs = Song.objects.all()
